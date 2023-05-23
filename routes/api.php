@@ -26,7 +26,7 @@ Route::post('/user', [UserController::class, 'store'])->name('user.store');
 // OCR API
 Route::post('/ocr', [AiController::class, 'ocr'])->name('ocr.image');
 
-// Chat APIS
+// Chat APIs
 Route::controller(PromptController::class)->group(function () {
     Route::get('/prompts',             'index');
     Route::post('/prompts',            'store');
@@ -36,7 +36,7 @@ Route::controller(PromptController::class)->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    // Admin APIS
+    // Admin APIs
     Route::controller(CarouselItemsController::class)->group(function () {
         Route::get('/carousel',             'index');
         Route::get('/carousel/{id}',        'show');
@@ -54,7 +54,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/user/{id}',         'destroy');
     });
 
-    // User Specific APIS
+    // User Specific APIs
     Route::get('/profile/show',         [ProfileController::class, 'show']);
     Route::put('/profile/image',        [ProfileController::class, 'image'])->name('profile.image');
 
