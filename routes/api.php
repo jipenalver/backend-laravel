@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AiController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\CarouselItemsController;
 
@@ -25,6 +25,12 @@ Route::post('/user', [UserController::class, 'store'])->name('user.store');
 
 // OCR API
 Route::post('/ocr', [AiController::class, 'ocr'])->name('ocr.image');
+
+// Chat APIS
+Route::controller(PromptController::class)->group(function () {
+    Route::get('/prompts',             'index');
+    Route::post('/prompts',            'store');
+});
 
 // Private APIs
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -51,4 +57,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // User Specific APIS
     Route::get('/profile/show',         [ProfileController::class, 'show']);
     Route::put('/profile/image',        [ProfileController::class, 'image'])->name('profile.image');
+
+    // Chat API
+    Route::delete('/prompts/{id}',      [PromptController::class, 'destroy']);
 });

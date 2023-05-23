@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Prompt;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PromptRequest;
 
@@ -13,7 +14,7 @@ class PromptController extends Controller
      */
     public function index()
     {
-        //
+        return Prompt::all();
     }
 
     /**
@@ -21,7 +22,11 @@ class PromptController extends Controller
      */
     public function store(PromptRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $prompt = Prompt::create($validated);
+
+        return $prompt;
     }
 
     /**
@@ -29,7 +34,11 @@ class PromptController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $prompt = Prompt::findOrFail($id);
+
+        $prompt->delete();
+
+        return $prompt;
     }
 
 }

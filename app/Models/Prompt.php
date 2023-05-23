@@ -39,7 +39,7 @@ class Prompt extends Model
      * @var array
      */
     protected $casts = [
-        'created_at' => 'datetime:m.d.Y',
+        'created_at' => 'datetime:h:i a, m.d.Y ',
     ];
     
 }
