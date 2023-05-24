@@ -32,14 +32,5 @@ class Prompt extends Model
         'message',
         'response',
     ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'created_at' => 'datetime:h:i a, m.d.Y ',
-    ];
     
 }
