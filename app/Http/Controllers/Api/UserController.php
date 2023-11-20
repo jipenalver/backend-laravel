@@ -118,4 +118,13 @@ class UserController extends Controller
         return $user;
     }
 
+    /**
+     * Display a selection of the resource.
+     */
+    public function selection()
+    {
+        return User::select('id', 'name')
+                        ->get();
+    }
+
 }
