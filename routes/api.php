@@ -47,7 +47,7 @@ Route::get('/user/selection', [UserController::class, 'selection']);
 
 // Private APIs
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 
     // Admin APIs
     Route::controller(CarouselItemsController::class)->group(function () {
