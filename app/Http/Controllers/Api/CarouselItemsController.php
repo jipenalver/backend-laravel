@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\CarouselItems;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CarouselItemsRequest;
 
 class CarouselItemsController extends Controller
@@ -12,9 +13,14 @@ class CarouselItemsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return CarouselItems::all();
+        // Show data based on logged user
+        return CarouselItems::where('user_id', $request->user()->id)
+                    ->paginate(3);
+
+        // Show all data; Uncomment if necessary
+        // return CarouselItems::all();
     }
 
     /**
@@ -23,6 +29,8 @@ class CarouselItemsController extends Controller
     public function store(CarouselItemsRequest $request)
     {
         $validated = $request->validated();
+
+        $validated['image_path'] = $request->file('image_path')->storePublicly('carousel', 'public');
 
         $carouselItem = CarouselItems::create($validated);
 
@@ -44,8 +52,18 @@ class CarouselItemsController extends Controller
     {
         $validated = $request->validated();
 
+        // Upload image to backend and store image path
+        $validated['image_path'] = $request->file('image_path')->storePublicly('carousel', 'public');
+
+        // Get info by id
         $carouselItem = CarouselItems::findOrFail($id);
 
+        // Delete previous image
+        if ( !is_null($carouselItem->image_path) ){
+            Storage::disk('public')->delete($carouselItem->image_path);
+        }
+
+        // Update new info
         $carouselItem->update($validated);
 
         return $carouselItem;
@@ -57,6 +75,10 @@ class CarouselItemsController extends Controller
     public function destroy(string $id)
     {
         $carouselItem = CarouselItems::findOrFail($id);
+
+        if ( !is_null($carouselItem->image_path) ){
+            Storage::disk('public')->delete($carouselItem->image_path);
+        }
 
         $carouselItem->delete();
 
