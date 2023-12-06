@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Admin APIs
     Route::controller(CarouselItemsController::class)->group(function () {
         Route::get('/carousel',             'index');
+        Route::get('/carousel/all',         'all');
         Route::get('/carousel/{id}',        'show');
         Route::post('/carousel',            'store');
         Route::put('/carousel/{id}',        'update');
