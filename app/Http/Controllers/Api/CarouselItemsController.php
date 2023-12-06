@@ -11,16 +11,35 @@ use App\Http\Requests\CarouselItemsRequest;
 class CarouselItemsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource with page or keyword.
      */
     public function index(Request $request)
     {
         // Show data based on logged user
-        return CarouselItems::where('user_id', $request->user()->id)
-                    ->paginate(3);
+        $carouselItems = CarouselItems::where('user_id', $request->user()->id);
 
+        // Cater Search use "keyword"
+        if ($request->keyword) {
+            $carouselItems->where(function ($query) use ($request) {
+                $query->where('carousel_name', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('description', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        // Paginate based on number set; You can change the number below
+        return $carouselItems->paginate(3);
+        
         // Show all data; Uncomment if necessary
         // return CarouselItems::all();
+    }
+
+    /**
+     * Display all listing of the resource.
+     */
+    public function all(Request $request)
+    {
+        return CarouselItems::where('user_id', $request->user()->id)
+                                ->get();
     }
 
     /**
