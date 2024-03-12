@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\CarouselItemsController;
+use App\Http\Controllers\Api\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,3 +76,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Chat API
     Route::delete('/prompts/{id}',      [PromptController::class, 'destroy']);
 });
+
+
+Route::get('/student',         [StudentController::class, 'index']);
+Route::post('/student',        [StudentController::class, 'store']);
