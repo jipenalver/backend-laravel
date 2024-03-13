@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\CarouselItemsController;
+use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\StudentController;
 
 /*
@@ -80,3 +81,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('/student',         [StudentController::class, 'index']);
 Route::post('/student',        [StudentController::class, 'store']);
+
+Route::get('/employee',         [EmployeeController::class, 'index']);
+Route::post('/employee',         [EmployeeController::class, 'store']);
